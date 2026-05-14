@@ -3,7 +3,7 @@ package uz.gita.testapp.presenter.quiz;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -64,12 +65,14 @@ public class QuizActivity extends AppCompatActivity implements QuizContract.View
         initViews();
 
         int levelId = getIntent().getIntExtra("LEVEL_ID", 1);
+        boolean isContinue = getIntent().getBooleanExtra("CONTINUE", false);
         presenter = new QuizPresenter(this);
 
-        shimmerFrameLayout.setVisibility(View.VISIBLE);
-        shimmerFrameLayout.startShimmer();
-
-        presenter.start(levelId);
+        if (isContinue) {
+            showContinueDialog(levelId);
+        } else {
+            startQuiz(levelId);
+        }
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -80,6 +83,35 @@ public class QuizActivity extends AppCompatActivity implements QuizContract.View
         });
 
 
+    }
+    private void startQuiz(int levelId) {
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
+        presenter.start(levelId);
+    }
+    private void showContinueDialog(int levelId) {
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_continue_choice, null);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .setCancelable(false)
+                .create();
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
+
+        view.findViewById(R.id.btnContinueGame).setOnClickListener(v -> {
+            startQuiz(levelId);
+            dialog.dismiss();
+        });
+
+        view.findViewById(R.id.btnNewGame).setOnClickListener(v -> {
+            presenter.start(levelId);
+            presenter.resetQuiz();
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 
     private void initViews() {
