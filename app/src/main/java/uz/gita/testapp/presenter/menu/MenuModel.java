@@ -27,5 +27,25 @@ public class MenuModel implements MenuContract.Model{
         return repository.getLevel();
     }
 
+    @Override
+    public int getSavedLevel() {
+        String state = repository.getGameState();
+        if (state != null) {
+            try {
+                return Integer.parseInt(state.split("\\|")[0]);
+            } catch (Exception e) {
+                return 1;
+            }
+        }
+        return 1;
+    }
+
+    @Override
+    public boolean hasSavedGame() {
+        return repository.isState();
+    }
+
+
+
 
 }

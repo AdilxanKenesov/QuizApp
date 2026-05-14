@@ -1,6 +1,7 @@
 package uz.gita.testapp.presenter.quiz;
 
 import java.util.List;
+import java.util.Map;
 
 import uz.gita.testapp.data.model.MyAnswerData;
 import uz.gita.testapp.data.model.QuestionData;
@@ -13,6 +14,7 @@ public interface QuizContract {
         void showToast(String message);
         void navigateToResult();
         void finishQuiz();
+        void setSkipButtonVisibility(boolean isVisible);
 
     }
     interface Presenter{
@@ -20,10 +22,16 @@ public interface QuizContract {
         void selectOption(String variant);
         void next();
         void prev();
+        void skip();
+        void resetQuiz();
+        void saveCurrentState();
     }
     interface Model{
         List<QuestionData> getQuestionByLevel(Integer level);
         void saveMyAnswer(List<MyAnswerData> list);
+        void saveGameState(int levelId, int currentIndex, Map<Integer, String> userAnswers, Map<Integer, List<String>> shuffledOptions);
+        String getSavedState();
+        void clearSavedState();
 
     }
 }

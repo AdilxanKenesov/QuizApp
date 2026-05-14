@@ -17,6 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.button.MaterialButton;
+
 import java.util.List;
 import uz.gita.testapp.R;
 import uz.gita.testapp.data.model.CategoryData;
@@ -27,6 +30,7 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
     private TextView tvProgress;
     private LinearLayout categoryContainer;
 
+    private MaterialButton btnContinue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,10 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
     private void loadView(){
         tvProgress = findViewById(R.id.tvProgress);
         categoryContainer = findViewById(R.id.category_container);
+        btnContinue = findViewById(R.id.btn_continue);
         presenter = new MenuPresenter(this);
+
+        btnContinue.setOnClickListener(v -> presenter.clickContinue());
     }
 
 
@@ -79,6 +86,8 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
         ImageView ivIcon = cardView.findViewById(R.id.ivLevelIcon);
         View viewBackground = cardView.findViewById(R.id.viewBackground);
         ivIcon.setImageResource(data.getImg());
+        TextView txtName = cardView.findViewById(R.id.tvLevelTitle);
+        txtName.setText(data.getName());
 
         GradientDrawable gd = new GradientDrawable(
                 GradientDrawable.Orientation.TOP_BOTTOM,
@@ -90,9 +99,10 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
     }
 
     @Override
-    public void navigateToQuiz(int categoryId) {
+    public void navigateToQuiz(int categoryId, boolean isContinue) {
         Intent intent = new Intent(this, QuizActivity.class);
         intent.putExtra("LEVEL_ID", categoryId);
+        intent.putExtra("CONTINUE", isContinue);
         startActivity(intent);
     }
 
@@ -105,6 +115,14 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
     public void showMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void setContinueButtonVisibility(boolean isVisible) {
+        btnContinue.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+    }
+
+
+
     @Override
     protected void onResume() {
         super.onResume();

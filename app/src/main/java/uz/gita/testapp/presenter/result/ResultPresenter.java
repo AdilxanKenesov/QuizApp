@@ -7,6 +7,7 @@ import uz.gita.testapp.data.model.MyAnswerData;
 public class ResultPresenter implements ResultContract.Presenter{
     private final ResultContract.View view;
     private final ResultContract.Model model;
+    private int levelId;
 
     public ResultPresenter(ResultContract.View view) {
         this.view = view;
@@ -30,6 +31,7 @@ public class ResultPresenter implements ResultContract.Presenter{
         if (percentage >= 70) {
             model.setLevel(currentLevelId + 1);
         }
+        levelId = currentLevelId;
 
         view.showResults(answers, correctCount, totalCount, percentage);
     }
@@ -37,5 +39,10 @@ public class ResultPresenter implements ResultContract.Presenter{
     @Override
     public void onHomeClicked() {
         view.navigateToHome();
+    }
+
+    @Override
+    public void onRestartClicked() {
+        view.navigateToQuiz(levelId);
     }
 }

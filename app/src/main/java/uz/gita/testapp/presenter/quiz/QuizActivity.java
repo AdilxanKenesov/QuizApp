@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -38,13 +39,11 @@ public class QuizActivity extends AppCompatActivity implements QuizContract.View
     private MaterialButton btnNext, btnPrev;
     private TextView tvLevelInfo, tvQuestionCount, tvQuestionText;
     private ImageView ivQuestionImage;
+    private TextView tvSkip;
     private final RadioButton[] options = new RadioButton[4];
     private ShimmerFrameLayout shimmerFrameLayout;
     private View dataLayout;
     private boolean isImageLoaded = false;
-    private boolean isTimeUp = false;
-
-
 
 
     @Override
@@ -72,9 +71,13 @@ public class QuizActivity extends AppCompatActivity implements QuizContract.View
 
         presenter.start(levelId);
 
-
-
-
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                presenter.saveCurrentState();
+                finish();
+            }
+        });
 
 
     }
@@ -89,12 +92,15 @@ public class QuizActivity extends AppCompatActivity implements QuizContract.View
         ivQuestionImage = dataLayout.findViewById(R.id.ivQuestion);
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finishQuiz());
-
+        tvSkip = findViewById(R.id.tvSkip);
+        ImageView btnReset = findViewById(R.id.btnReset);
+        btnReset.setOnClickListener(v -> presenter.resetQuiz());
 
         options[0] = dataLayout.findViewById(R.id.option1);
         options[1] = dataLayout.findViewById(R.id.option2);
         options[2] = dataLayout.findViewById(R.id.option3);
         options[3] = dataLayout.findViewById(R.id.option4);
+        tvSkip.setOnClickListener(v -> presenter.skip());
 
         btnNext.setOnClickListener(v -> presenter.next());
         btnPrev.setOnClickListener(v -> presenter.prev());
@@ -114,17 +120,12 @@ public class QuizActivity extends AppCompatActivity implements QuizContract.View
         radioGroup.clearCheck();
         tvQuestionText.setText(data.getQuestion());
         isImageLoaded = false;
-        isTimeUp = false;
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmer();
 
-        new Handler().postDelayed(() -> {
-            isTimeUp = true;
-            checkAndStopShimmer();
-        }, 2000);
         Glide.with(this)
                 .load(data.getImage())
-                .listener(new RequestListener<Drawable>() {
+                .listener(new RequestListener<>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         isImageLoaded = true;
@@ -178,7 +179,17 @@ public class QuizActivity extends AppCompatActivity implements QuizContract.View
 
     @Override
     public void finishQuiz() {
+        presenter.saveCurrentState();
         finish();
+    }
+
+    @Override
+    public void setSkipButtonVisibility(boolean isVisible) {
+        if (isVisible) {
+            tvSkip.setVisibility(View.VISIBLE);
+        } else {
+            tvSkip.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -187,11 +198,15 @@ public class QuizActivity extends AppCompatActivity implements QuizContract.View
     }
 
     private void checkAndStopShimmer() {
-
-        if (isImageLoaded && isTimeUp) {
+        if (isImageLoaded) {
             shimmerFrameLayout.stopShimmer();
             shimmerFrameLayout.setVisibility(View.GONE);
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.saveCurrentState();
+    }
 }

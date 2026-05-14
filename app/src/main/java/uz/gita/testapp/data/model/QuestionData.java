@@ -87,5 +87,3 @@ public class QuestionData {
     }
 
 }
-
-// Fruite Animals Home Family Colors Numbers Weather Food Clothes Conversation

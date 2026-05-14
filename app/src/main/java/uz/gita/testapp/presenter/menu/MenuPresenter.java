@@ -27,15 +27,24 @@ public class MenuPresenter implements MenuContract.Presenter{
         int percent = totalLevels > 0 ? (completedLevels * 100) / totalLevels : 0;
         String progressText = String.format("Progress: %d/%d (%d%%)", completedLevels+1, totalLevels, percent);
         view.showProgress(progressText);
+        boolean hasSaved = model.hasSavedGame();
+        view.setContinueButtonVisibility(hasSaved);
 
     }
 
     @Override
     public void clickCategory(CategoryData data) {
         if (data.isOpened()){
-            view.navigateToQuiz(data.getLevel());
+            view.navigateToQuiz(data.getLevel(), false);
         }else {
             view.showMessage("This level is locked");
         }
+    }
+
+    @Override
+    public void clickContinue() {
+        int savedLevelId = model.getSavedLevel();
+        view.navigateToQuiz(savedLevelId, true);
+
     }
 }

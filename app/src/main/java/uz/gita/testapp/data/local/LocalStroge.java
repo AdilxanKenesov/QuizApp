@@ -33,14 +33,16 @@ public class LocalStroge {
     public void removeLevel(){
         sharedPreferences.edit().remove("level").apply();
     }
-    public void questionLevel(int level){
-        sharedPreferences.edit().putInt("question_level", level).apply();
+
+    public void saveGameState(String state){
+        sharedPreferences.edit().putString("state", state).apply();
     }
-    public int getQuestionLevel(){
-        return sharedPreferences.getInt("question_level", 1);
+
+    public String getGameState(){
+        return sharedPreferences.getString("state", null);
     }
-    public void removeQuestionLevel(){
-        sharedPreferences.edit().remove("question_level").apply();
+    public void removeGameState(){
+        sharedPreferences.edit().remove("state").apply();
     }
 
 }

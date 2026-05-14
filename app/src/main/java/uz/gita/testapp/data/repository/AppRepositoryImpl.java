@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import uz.gita.testapp.R;
 import uz.gita.testapp.data.local.LocalStroge;
@@ -59,10 +60,6 @@ public class AppRepositoryImpl implements AppRepository{
 
     }
 
-    @Override
-    public int getMaxQuestionCount(Integer level) {
-        return getQuestions(level).size();
-    }
 
     @Override
     public void myAnswer(List<MyAnswerData> list) {
@@ -77,6 +74,46 @@ public class AppRepositoryImpl implements AppRepository{
     @Override
     public void removeMyAnswer() {
         list.clear();
+    }
+
+    @Override
+    public void saveGameState(int levelId, int currentIndex, Map<Integer, String> userAnswers, Map<Integer, List<String>> shuffledOptions) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(levelId).append("|").append(currentIndex).append("|");
+
+        for (Map.Entry<Integer, String> entry : userAnswers.entrySet()) {
+            sb.append(entry.getKey()).append(":").append(entry.getValue()).append(",");
+        }
+        if (!userAnswers.isEmpty()) sb.setLength(sb.length() - 1);
+
+        sb.append("|");
+
+        for (Map.Entry<Integer, List<String>> entry : shuffledOptions.entrySet()) {
+            sb.append(entry.getKey()).append(":");
+            for (String opt : entry.getValue()) {
+                sb.append(opt).append(",");
+            }
+            sb.setLength(sb.length() - 1);
+            sb.append(";");
+        }
+        if (!shuffledOptions.isEmpty()) sb.setLength(sb.length() - 1);
+        pref.saveGameState(sb.toString());
+
+    }
+
+    @Override
+    public String getGameState() {
+        return pref.getGameState();
+    }
+
+    @Override
+    public boolean isState() {
+        return pref.getGameState() != null;
+    }
+
+    @Override
+    public void removeGameState() {
+        pref.removeGameState();
     }
 
 
@@ -96,7 +133,6 @@ public class AppRepositoryImpl implements AppRepository{
         fruitQuestions.add(new QuestionData(1, "Which berry is this?", "https://pluspng.com/img-png/strawberry-transparent-png-600.png", "Strawberry", "Cherry", "Grape", "Strawberry", "Berry"));
         fruitQuestions.add(new QuestionData(1, "What is the English name for 'Uzum'?", "https://static.vecteezy.com/system/resources/thumbnails/027/125/716/small/grapes-isolated-on-transparent-background-grape-clip-art-generative-ai-png.png", "Grapes", "Grapes", "Orange", "Apple", "Melon"));
         fruitQuestions.add(new QuestionData(1, "This fruit is sour and yellow:", "https://www.freepnglogos.com/uploads/lemon-png/lemon-juice-sampar-drinking-water-19.png", "Lemon", "Orange", "Lemon", "Pineapple", "Banana"));
-        Collections.shuffle(fruitQuestions);
         questions.put(1, fruitQuestions);
 
         List<QuestionData> animalQuestions = new ArrayList<>();
@@ -105,25 +141,22 @@ public class AppRepositoryImpl implements AppRepository{
         animalQuestions.add(new QuestionData(2, "It loves carrots:", "https://static.vecteezy.com/system/resources/thumbnails/016/457/777/small/realistic-computer-drawing-of-a-rabbit-png.png", "Rabbit", "Cat", "Dog", "Rabbit", "Mouse"));
         animalQuestions.add(new QuestionData(2, "The largest land animal:", "https://www.pngarts.com/files/4/Elephant-Transparent-Image.png", "Elephant", "Hippo", "Elephant", "Rhino", "Lion"));
         animalQuestions.add(new QuestionData(2, "Man's best friend:", "https://static.vecteezy.com/system/resources/thumbnails/044/279/923/small/dog-on-isolated-background-png.png", "Dog", "Cat", "Dog", "Bird", "Cow"));
-        Collections.shuffle(animalQuestions);
         questions.put(2, animalQuestions);
 
         List<QuestionData> homeQuestions = new ArrayList<>();
-        homeQuestions.add(new QuestionData(3, "Where do you sleep?", "https://img.url/bed.png", "Bed", "Chair", "Bed", "Table", "Sofa"));
-        homeQuestions.add(new QuestionData(3, "We keep food cold in the...", "https://img.url/fridge.png", "Fridge", "Oven", "Fridge", "Cabinet", "Sink"));
-        homeQuestions.add(new QuestionData(3, "You sit on this to work:", "https://img.url/chair.png", "Chair", "Bed", "Chair", "Door", "Window"));
-        homeQuestions.add(new QuestionData(3, "You watch news on...", "https://img.url/tv.png", "TV", "Radio", "Phone", "TV", "Clock"));
-        homeQuestions.add(new QuestionData(3, "Where do you cook?", "https://img.url/kitchen.png", "Kitchen", "Bedroom", "Kitchen", "Garden", "Bathroom"));
-        Collections.shuffle(homeQuestions);
+        homeQuestions.add(new QuestionData(3, "Where do you sleep?", "https://pngimg.com/uploads/bed/bed_PNG17418.png", "Bed", "Chair", "Bed", "Table", "Sofa"));
+        homeQuestions.add(new QuestionData(3, "We keep food cold in the...", "https://png.pngtree.com/png-vector/20240104/ourmid/pngtree-stainless-steel-open-fridge-png-image_11402215.png", "Fridge", "Oven", "Fridge", "Cabinet", "Sink"));
+        homeQuestions.add(new QuestionData(3, "You sit on this to work:", "https://freepngimg.com/thumb/chair/1-chair-png-image.png", "Chair", "Bed", "Chair", "Door", "Window"));
+        homeQuestions.add(new QuestionData(3, "You watch news on...", "https://png.pngtree.com/png-vector/20230408/ourmid/pngtree-led-tv-television-screen-vector-png-image_6673700.png", "TV", "Radio", "Phone", "TV", "Clock"));
+        homeQuestions.add(new QuestionData(3, "Where do you cook?", "https://www.pngall.com/wp-content/uploads/8/Kitchen-PNG-File.png", "Kitchen", "Bedroom", "Kitchen", "Garden", "Bathroom"));
         questions.put(3, homeQuestions);
 
         List<QuestionData> familyQuestions = new ArrayList<>();
-        familyQuestions.add(new QuestionData(4, "Your mother's husband is your...", "https://img.url/father.png", "Father", "Uncle", "Brother", "Father", "Grandpa"));
-        familyQuestions.add(new QuestionData(4, "Your father's daughter is your...", "https://img.url/sister.png", "Sister", "Mother", "Sister", "Aunt", "Cousin"));
-        familyQuestions.add(new QuestionData(4, "A very young child is a...", "https://img.url/baby.png", "Baby", "Man", "Baby", "Woman", "Boy"));
-        familyQuestions.add(new QuestionData(4, "Father of your mother:", "https://img.url/grandpa.png", "Grandfather", "Brother", "Grandfather", "Father", "Son"));
-        familyQuestions.add(new QuestionData(4, "Female parent:", "https://img.url/mother.png", "Mother", "Sister", "Aunt", "Mother", "Daughter"));
-        Collections.shuffle(familyQuestions);
+        familyQuestions.add(new QuestionData(4, "Your mother's husband is your...", "https://www.pngall.com/wp-content/uploads/15/Dad-PNG-Photo.png", "Father", "Uncle", "Brother", "Father", "Grandpa"));
+        familyQuestions.add(new QuestionData(4, "Your father's daughter is your...", "https://static.vecteezy.com/system/resources/thumbnails/047/824/766/small/cheerful-girls-embracing-each-other-free-png.png", "Sister", "Mother", "Sister", "Aunt", "Cousin"));
+        familyQuestions.add(new QuestionData(4, "A very young child is a...", "https://static.vecteezy.com/system/resources/thumbnails/057/852/099/small/happy-baby-playing-on-soft-white-surface-covered-with-blue-towel-smiling-with-joy-and-excitement-during-a-cozy-afternoon-free-png.png", "Baby", "Man", "Baby", "Woman", "Boy"));
+        familyQuestions.add(new QuestionData(4, "Father of your mother:", "https://clipart-library.com/newhp/grandfather-clipart-2.png", "Grandfather", "Brother", "Grandfather", "Father", "Son"));
+        familyQuestions.add(new QuestionData(4, "Female parent:", "https://static.vecteezy.com/system/resources/thumbnails/041/493/765/small/ai-generated-portrait-of-a-smiling-mother-and-baby-free-png.png", "Mother", "Sister", "Aunt", "Mother", "Daughter"));
         questions.put(4, familyQuestions);
 
         List<QuestionData> colorQuestions = new ArrayList<>();
@@ -132,7 +165,6 @@ public class AppRepositoryImpl implements AppRepository{
         colorQuestions.add(new QuestionData(5, "Sun is usually...", "https://img.url/sun.png", "Yellow", "Purple", "Orange", "Yellow", "Blue"));
         colorQuestions.add(new QuestionData(5, "The color of a tomato:", "https://img.url/tomato.png", "Red", "Blue", "Red", "Brown", "Grey"));
         colorQuestions.add(new QuestionData(5, "Mix Red and White to get...", "https://img.url/pink.png", "Pink", "Pink", "Black", "Green", "Purple"));
-        Collections.shuffle(colorQuestions);
         questions.put(5, colorQuestions);
 
         List<QuestionData> numberQuestions = new ArrayList<>();
@@ -141,7 +173,6 @@ public class AppRepositoryImpl implements AppRepository{
         numberQuestions.add(new QuestionData(6, "How many legs does a spider have?", "https://img.url/spider.png", "Eight", "Six", "Seven", "Eight", "Nine"));
         numberQuestions.add(new QuestionData(6, "First number in counting:", "https://img.url/one.png", "One", "Zero", "One", "Two", "Three"));
         numberQuestions.add(new QuestionData(6, "The number after nine:", "https://img.url/ten.png", "Ten", "Eight", "Nine", "Ten", "Eleven"));
-        Collections.shuffle(numberQuestions);
         questions.put(6, numberQuestions);
 
         List<QuestionData> weatherQuestions = new ArrayList<>();
@@ -150,7 +181,6 @@ public class AppRepositoryImpl implements AppRepository{
         weatherQuestions.add(new QuestionData(7, "White and cold weather:", "https://img.url/snowy.png", "Snowy", "Hot", "Snowy", "Dry", "Wet"));
         weatherQuestions.add(new QuestionData(7, "Strong air moving:", "https://img.url/windy.png", "Windy", "Stormy", "Windy", "Sunny", "Clear"));
         weatherQuestions.add(new QuestionData(7, "Grey sky with no sun:", "https://img.url/cloudy.png", "Cloudy", "Bright", "Dark", "Cloudy", "Stormy"));
-        Collections.shuffle(weatherQuestions);
         questions.put(7, weatherQuestions);
 
         List<QuestionData> foodQuestions = new ArrayList<>();
@@ -159,7 +189,6 @@ public class AppRepositoryImpl implements AppRepository{
         foodQuestions.add(new QuestionData(8, "Chicken produces...", "https://img.url/egg.png", "Egg", "Milk", "Egg", "Meat", "Bread"));
         foodQuestions.add(new QuestionData(8, "Sweet cold dessert:", "https://img.url/icecream.png", "Ice cream", "Cake", "Ice cream", "Cookie", "Candy"));
         foodQuestions.add(new QuestionData(8, "Liquid food in a bowl:", "https://img.url/soup.png", "Soup", "Pizza", "Soup", "Rice", "Meat"));
-        Collections.shuffle(foodQuestions);
         questions.put(8, foodQuestions);
 
         List<QuestionData> clothesQuestions = new ArrayList<>();
@@ -168,7 +197,6 @@ public class AppRepositoryImpl implements AppRepository{
         clothesQuestions.add(new QuestionData(9, "Women often wear a...", "https://img.url/dress.png", "Dress", "Pants", "Tie", "Dress", "Suit"));
         clothesQuestions.add(new QuestionData(9, "When it is cold, wear a...", "https://img.url/coat.png", "Coat", "Shorts", "Coat", "T-shirt", "Cap"));
         clothesQuestions.add(new QuestionData(9, "Worn around the neck:", "https://img.url/scarf.png", "Scarf", "Scarf", "Ring", "Watch", "Socks"));
-        Collections.shuffle(clothesQuestions);
         questions.put(9, clothesQuestions);
 
         List<QuestionData> convQuestions = new ArrayList<>();
@@ -177,7 +205,6 @@ public class AppRepositoryImpl implements AppRepository{
         convQuestions.add(new QuestionData(10, "When leaving, say:", "https://img.url/bye.png", "Goodbye", "Goodbye", "Welcome", "Hi", "Thanks"));
         convQuestions.add(new QuestionData(10, "Ask for something politely:", "https://img.url/please.png", "Please", "Give me", "Please", "Stop", "Go"));
         convQuestions.add(new QuestionData(10, "If you make a mistake:", "https://img.url/sorry.png", "Sorry", "Yes", "Sorry", "Maybe", "Great"));
-        Collections.shuffle(convQuestions);
         questions.put(10, convQuestions);
     }
     private  final List<CategoryData> categories = new ArrayList<>();

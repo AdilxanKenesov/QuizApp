@@ -1,5 +1,6 @@
 package uz.gita.testapp.presenter.result;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,15 +16,18 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
 import uz.gita.testapp.R;
 import uz.gita.testapp.data.model.MyAnswerData;
+import uz.gita.testapp.presenter.quiz.QuizActivity;
 
 public class ResultActivity extends AppCompatActivity implements ResultContract.View {
     private ResultContract.Presenter presenter;
     private LinearLayout container;
+    private MaterialButton btnRestart;
     private TextView tvTotalScore, tvCorrectCount;
 
     @Override
@@ -40,8 +44,6 @@ public class ResultActivity extends AppCompatActivity implements ResultContract.
         presenter = new ResultPresenter(this);
         int currentLevelId = getIntent().getIntExtra("LEVEL_ID", 1);
 
-        initViews();
-        presenter = new ResultPresenter(this);
         presenter.start(currentLevelId);
     }
 
@@ -49,6 +51,9 @@ public class ResultActivity extends AppCompatActivity implements ResultContract.
         container = findViewById(R.id.container);
         tvTotalScore = findViewById(R.id.tvTotalScore);
         tvCorrectCount = findViewById(R.id.tvCorrectCount);
+        btnRestart = findViewById(R.id.btnRestart);
+
+        btnRestart.setOnClickListener(v -> presenter.onRestartClicked());
 
         findViewById(R.id.btnHome).setOnClickListener(v -> presenter.onHomeClicked());
     }
@@ -58,7 +63,7 @@ public class ResultActivity extends AppCompatActivity implements ResultContract.
         tvTotalScore.setText(percentage + "%");
         tvCorrectCount.setText(correctCount + " / " + totalCount + " correct answers");
 
-        if (percentage < 50) tvTotalScore.setTextColor(Color.RED);
+        if (percentage < 70) tvTotalScore.setTextColor(Color.RED);
         else tvTotalScore.setTextColor(Color.parseColor("#4CAF50"));
 
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -92,6 +97,14 @@ public class ResultActivity extends AppCompatActivity implements ResultContract.
 
     @Override
     public void navigateToHome() {
+        finish();
+    }
+
+    @Override
+    public void navigateToQuiz(int levelId) {
+        Intent intent = new Intent(this, QuizActivity.class);
+        intent.putExtra("LEVEL_ID", levelId);
+        startActivity(intent);
         finish();
     }
 }

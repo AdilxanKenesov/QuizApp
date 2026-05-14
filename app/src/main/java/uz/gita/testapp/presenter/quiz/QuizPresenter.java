@@ -1,9 +1,12 @@
 package uz.gita.testapp.presenter.quiz;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import uz.gita.testapp.data.model.MyAnswerData;
 import uz.gita.testapp.data.model.QuestionData;
@@ -16,6 +19,7 @@ public class QuizPresenter implements QuizContract.Presenter{
     private final Map<Integer, List<String>> shuffledOptionsMap = new HashMap<>();
     private int currentIndex = 0;
     private int levelId;
+    private boolean isQuizFinished = false;
 
     public QuizPresenter(QuizContract.View view){
         this.model = QuizModel.getInstance();
@@ -30,7 +34,55 @@ public class QuizPresenter implements QuizContract.Presenter{
         for (int i = 0; i < questions.size(); i++) {
             shuffledOptionsMap.put(i, questions.get(i).getShuffledOptions());
         }
+        String savedState = model.getSavedState();
+        if (savedState != null) {
+            parseState(savedState);
+            if (shuffledOptionsMap.isEmpty()) {
+                generateNewShuffleOptions();
+            }
+        }
+        else {
+            generateNewShuffleOptions();
+        }
         loadCurrentQuestion();
+    }
+    private void generateNewShuffleOptions() {
+        shuffledOptionsMap.clear();
+        for (int i = 0; i < questions.size(); i++) {
+            shuffledOptionsMap.put(i, questions.get(i).getShuffledOptions());
+        }
+    }
+    private void parseState(String state) {
+        try {
+            String[] parts = state.split("\\|");
+            int savedLevel = Integer.parseInt(parts[0]);
+
+            if (savedLevel == levelId) {
+                this.currentIndex = Integer.parseInt(parts[1]);
+
+                if (parts.length > 2 && !parts[2].isEmpty()) {
+                    String[] answers = parts[2].split(",");
+                    for (String answer : answers) {
+                        String[] kv = answer.split(":");
+                        if (kv.length == 2) userAnswers.put(Integer.parseInt(kv[0]), kv[1]);
+                    }
+                }
+
+                if (parts.length > 3 && !parts[3].isEmpty()) {
+                    String[] allOptions = parts[3].split(";");
+                    for (String optionEntry : allOptions) {
+                        String[] kv = optionEntry.split(":");
+                        if (kv.length == 2) {
+                            int qIdx = Integer.parseInt(kv[0]);
+                            List<String> opts = new ArrayList<>(java.util.Arrays.asList(kv[1].split(",")));
+                            shuffledOptionsMap.put(qIdx, opts);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.e("TTT", Objects.requireNonNull(e.getMessage()));
+        }
     }
     private void loadCurrentQuestion(){
         QuestionData q = questions.get(currentIndex);
@@ -38,12 +90,17 @@ public class QuizPresenter implements QuizContract.Presenter{
         List<String> variants = shuffledOptionsMap.get(currentIndex);
         view.showQuestion(q, variants, currentIndex + 1, questions.size(), previousAnswer);
         view.updateHeader(levelId, currentIndex + 1, questions.size());
+        boolean isLast = (currentIndex == questions.size() - 1);
         view.setNavigationButtons(currentIndex == 0, currentIndex == questions.size() - 1);
+        boolean showSkip = !isLast || hasSkippedQuestions();
+
+        view.setSkipButtonVisibility(showSkip);
     }
 
     @Override
     public void selectOption(String variant) {
         userAnswers.put(currentIndex, variant);
+        saveCurrentState();
     }
 
     @Override
@@ -53,11 +110,27 @@ public class QuizPresenter implements QuizContract.Presenter{
             return;
         }
 
+        saveCurrentState();
+
         if (currentIndex < questions.size() - 1) {
             currentIndex++;
             loadCurrentQuestion();
         } else {
-            saveAndFinish();
+            int firstSkipped = -1;
+            for (int i = 0; i < questions.size(); i++) {
+                String answer = userAnswers.get(i);
+                if (answer == null || "Skipped".equals(answer)) {
+                    firstSkipped = i;
+                    break;
+                }
+            }
+            if (firstSkipped != -1) {
+                currentIndex = firstSkipped;
+                loadCurrentQuestion();
+                view.showToast("Please complete skipped questions");
+            } else {
+                saveAndFinish();
+            }
         }
     }
 
@@ -69,6 +142,7 @@ public class QuizPresenter implements QuizContract.Presenter{
         }
     }
     private void saveAndFinish() {
+        isQuizFinished = true;
         List<MyAnswerData> results = new ArrayList<>();
         for (int i = 0; i < questions.size(); i++) {
             QuestionData q = questions.get(i);
@@ -79,6 +153,64 @@ public class QuizPresenter implements QuizContract.Presenter{
             ));
         }
         model.saveMyAnswer(results);
+        model.clearSavedState();
         view.navigateToResult();
+    }
+
+    @Override
+    public void skip() {
+        if (!userAnswers.containsKey(currentIndex)) {
+            userAnswers.put(currentIndex, "Skipped");
+        }
+
+        if (currentIndex < questions.size() - 1) {
+            currentIndex++;
+            loadCurrentQuestion();
+        } else {
+            int firstskiped = -1;
+            for (int i = 0; i < questions.size(); i++) {
+                String answer = userAnswers.get(i);
+                if (answer == null || answer.equals("Skipped")){
+                    firstskiped = i;
+                    break;
+                }
+            }
+            if (firstskiped != -1){
+                currentIndex = firstskiped;
+                loadCurrentQuestion();
+
+            }else {
+                saveAndFinish();
+
+            }
+        }
+    }
+
+    @Override
+    public void resetQuiz() {
+        isQuizFinished = false;
+        userAnswers.clear();
+
+        currentIndex = 0;
+
+        model.clearSavedState();
+
+        loadCurrentQuestion();
+
+        view.showToast("Reset Game");
+    }
+    @Override
+    public void saveCurrentState() {
+        if (isQuizFinished || userAnswers.isEmpty() ) return;
+        model.saveGameState(levelId, currentIndex, userAnswers, shuffledOptionsMap);
+    }
+    private boolean hasSkippedQuestions() {
+        for (int i = 0; i < questions.size(); i++) {
+            String answer = userAnswers.get(i);
+            if (answer == null || "Skipped".equals(answer)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
