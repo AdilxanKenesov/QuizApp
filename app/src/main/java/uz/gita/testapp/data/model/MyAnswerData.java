@@ -25,9 +25,6 @@ public class MyAnswerData {
         this.level = level;
     }
 
-    public int getIndex() {
-        return index;
-    }
 
     public String getImage() {
         return image;
@@ -45,24 +42,6 @@ public class MyAnswerData {
         return wrongAnswer;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
-    }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public void setRightAnswer(String rightAnswer) {
-        this.rightAnswer = rightAnswer;
-    }
-
-    public void setWrongAnswer(String wrongAnswer) {
-        this.wrongAnswer = wrongAnswer;
-    }
 
 }
