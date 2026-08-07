@@ -7,31 +7,29 @@ import uz.gita.testapp.data.model.MyAnswerData;
 import uz.gita.testapp.data.model.QuestionData;
 
 public interface QuizContract {
-    interface View{
+    interface View {
         void showQuestion(QuestionData data, List<String> shuffledOptions, int position, int total, String selectedAnswer);
         void updateHeader(int level, int position, int total);
         void setNavigationButtons(boolean isFirst, boolean isLast);
         void showToast(String message);
         void navigateToResult();
         void finishQuiz();
-        void setSkipButtonVisibility(boolean isVisible);
-
     }
-    interface Presenter{
+
+    interface Presenter {
         void start(int level);
         void selectOption(String variant);
         void next();
         void prev();
-        void skip();
         void resetQuiz();
         void saveCurrentState();
     }
-    interface Model{
+
+    interface Model {
         List<QuestionData> getQuestionByLevel(Integer level);
         void saveMyAnswer(List<MyAnswerData> list);
         void saveGameState(int levelId, int currentIndex, Map<Integer, String> userAnswers, Map<Integer, List<String>> shuffledOptions);
         String getSavedState();
         void clearSavedState();
-
     }
 }

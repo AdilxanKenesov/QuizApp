@@ -160,51 +160,51 @@ public class AppRepositoryImpl implements AppRepository{
         questions.put(4, familyQuestions);
 
         List<QuestionData> colorQuestions = new ArrayList<>();
-        colorQuestions.add(new QuestionData(5, "What color is the sky?", "https://img.url/sky.png", "Blue", "Red", "Blue", "Green", "Yellow"));
-        colorQuestions.add(new QuestionData(5, "What color is the grass?", "https://img.url/grass.png", "Green", "Green", "Black", "White", "Pink"));
-        colorQuestions.add(new QuestionData(5, "Sun is usually...", "https://img.url/sun.png", "Yellow", "Purple", "Orange", "Yellow", "Blue"));
-        colorQuestions.add(new QuestionData(5, "The color of a tomato:", "https://img.url/tomato.png", "Red", "Blue", "Red", "Brown", "Grey"));
-        colorQuestions.add(new QuestionData(5, "Mix Red and White to get...", "https://img.url/pink.png", "Pink", "Pink", "Black", "Green", "Purple"));
+        colorQuestions.add(new QuestionData(5, "What color is the sky?", "https://png.pngtree.com/png-vector/20251014/ourmid/pngtree-fluffy-white-cloud-against-a-clear-blue-sky-png-image_17705924.webp", "Blue", "Red", "Blue", "Green", "Yellow"));
+        colorQuestions.add(new QuestionData(5, "What color is the grass?", "https://cdn.creazilla.com/cliparts/63868/camomile-field-clipart-md.png", "Green", "Green", "Black", "White", "Pink"));
+        colorQuestions.add(new QuestionData(5, "Sun is usually...", "https://png.pngtree.com/png-vector/20250830/ourmid/pngtree-bright-yellow-smiling-sun-with-happy-face-and-warm-rays-png-image_17339824.webp", "Yellow", "Purple", "Orange", "Yellow", "Blue"));
+        colorQuestions.add(new QuestionData(5, "The color of a tomato:", "https://static.vecteezy.com/system/resources/previews/069/749/495/non_2x/fresh-ripe-red-tomatoes-with-green-stems-and-water-droplets-isolated-on-transparent-background-free-png.png", "Red", "Blue", "Red", "Brown", "Grey"));
+        colorQuestions.add(new QuestionData(5, "Mix Red and White to get...", "https://static.vecteezy.com/system/resources/thumbnails/009/372/335/small_2x/beautiful-colour-paint-splashes-set-of-paint-splashes-vector-illustration-colorful-splashes-of-paint-collection-paint-splatter-that-is-hand-drawn-free-png.png", "Pink", "Pink", "Black", "Green", "Purple"));
         questions.put(5, colorQuestions);
 
         List<QuestionData> numberQuestions = new ArrayList<>();
-        numberQuestions.add(new QuestionData(6, "How many fingers on one hand?", "https://img.url/hand.png", "Five", "Four", "Five", "Six", "Ten"));
-        numberQuestions.add(new QuestionData(6, "2 + 2 = ?", "https://img.url/four.png", "Four", "Three", "Four", "Five", "Two"));
-        numberQuestions.add(new QuestionData(6, "How many legs does a spider have?", "https://img.url/spider.png", "Eight", "Six", "Seven", "Eight", "Nine"));
-        numberQuestions.add(new QuestionData(6, "First number in counting:", "https://img.url/one.png", "One", "Zero", "One", "Two", "Three"));
-        numberQuestions.add(new QuestionData(6, "The number after nine:", "https://img.url/ten.png", "Ten", "Eight", "Nine", "Ten", "Eleven"));
+        numberQuestions.add(new QuestionData(6, "How many fingers on one hand?", "https://static.vecteezy.com/system/resources/thumbnails/022/659/644/small/3d-rendering-3d-illustration-cartoon-character-hand-isolated-on-transparent-background-simple-open-palm-gesture-png.png", "Five", "Four", "Five", "Six", "Ten"));
+        numberQuestions.add(new QuestionData(6, "2 + 2 = ?", "https://cdn-icons-png.flaticon.com/512/11150/11150075.png", "Four", "Three", "Four", "Five", "Two"));
+        numberQuestions.add(new QuestionData(6, "How many legs does a spider have?", "https://static.vecteezy.com/system/resources/thumbnails/025/222/661/small/cute-spider-halloween-icon-png.png", "Eight", "Six", "Seven", "Eight", "Nine"));
+        numberQuestions.add(new QuestionData(6, "First number in counting:", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaac2Lu-3tLbC4srE9TFrzfBfDmS94viW1e4WkmpouyQ&s=10", "One", "Zero", "One", "Two", "Three"));
+        numberQuestions.add(new QuestionData(6, "The number after nine:", "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Maradona_10number_arg.svg/500px-Maradona_10number_arg.svg.png", "Ten", "Eight", "Nine", "Ten", "Eleven"));
         questions.put(6, numberQuestions);
 
         List<QuestionData> weatherQuestions = new ArrayList<>();
-        weatherQuestions.add(new QuestionData(7, "When the sun shines, it is...", "https://img.url/sunny.png", "Sunny", "Rainy", "Sunny", "Cloudy", "Snowy"));
-        weatherQuestions.add(new QuestionData(7, "Water falling from clouds:", "https://img.url/rainy.png", "Rain", "Snow", "Wind", "Rain", "Ice"));
-        weatherQuestions.add(new QuestionData(7, "White and cold weather:", "https://img.url/snowy.png", "Snowy", "Hot", "Snowy", "Dry", "Wet"));
-        weatherQuestions.add(new QuestionData(7, "Strong air moving:", "https://img.url/windy.png", "Windy", "Stormy", "Windy", "Sunny", "Clear"));
-        weatherQuestions.add(new QuestionData(7, "Grey sky with no sun:", "https://img.url/cloudy.png", "Cloudy", "Bright", "Dark", "Cloudy", "Stormy"));
+        weatherQuestions.add(new QuestionData(7, "When the sun shines, it is...", "https://img.icons8.com/external-gradient-flat-deni-mao/1200/external-Sunny-Weather-travel-and-vacation-gradient-flat-deni-mao.jpg", "Sunny", "Rainy", "Sunny", "Cloudy", "Snowy"));
+        weatherQuestions.add(new QuestionData(7, "Water falling from clouds:", "https://content.mycutegraphics.com/graphics/rain/happy-rain-cloud.png", "Rain", "Snow", "Wind", "Rain", "Ice"));
+        weatherQuestions.add(new QuestionData(7, "White and cold weather:", "https://img.magnific.com/premium-vector/snowy-weather-icon-with-cloud-snow-falling-weather-forcast-icon-clipart-flat-vector-cartoon_893800-1734.jpg?semt=ais_test_b&w=740&q=80", "Snowy", "Hot", "Snowy", "Dry", "Wet"));
+        weatherQuestions.add(new QuestionData(7, "Strong air moving:", "https://cdn-icons-png.magnific.com/256/6636/6636336.png?semt=ais_white_label", "Windy", "Stormy", "Windy", "Sunny", "Clear"));
+        weatherQuestions.add(new QuestionData(7, "Grey sky with no sun:", "https://cdn-icons-png.flaticon.com/512/1163/1163736.png", "Cloudy", "Bright", "Dark", "Cloudy", "Stormy"));
         questions.put(7, weatherQuestions);
 
         List<QuestionData> foodQuestions = new ArrayList<>();
-        foodQuestions.add(new QuestionData(8, "Italian food with cheese:", "https://img.url/pizza.png", "Pizza", "Soup", "Salad", "Pizza", "Pasta"));
-        foodQuestions.add(new QuestionData(8, "Morning meal is...", "https://img.url/breakfast.png", "Breakfast", "Lunch", "Dinner", "Breakfast", "Snack"));
-        foodQuestions.add(new QuestionData(8, "Chicken produces...", "https://img.url/egg.png", "Egg", "Milk", "Egg", "Meat", "Bread"));
-        foodQuestions.add(new QuestionData(8, "Sweet cold dessert:", "https://img.url/icecream.png", "Ice cream", "Cake", "Ice cream", "Cookie", "Candy"));
-        foodQuestions.add(new QuestionData(8, "Liquid food in a bowl:", "https://img.url/soup.png", "Soup", "Pizza", "Soup", "Rice", "Meat"));
+        foodQuestions.add(new QuestionData(8, "Italian food with cheese:", "https://cdn-icons-png.flaticon.com/512/2515/2515262.png", "Pizza", "Soup", "Salad", "Pizza", "Pasta"));
+        foodQuestions.add(new QuestionData(8, "Morning meal is...", "https://png.pngtree.com/png-vector/20240611/ourmid/pngtree-a-delicious-breakfast-plate-with-eggs-toast-on-transparant-background-png-image_12694828.png", "Breakfast", "Lunch", "Dinner", "Breakfast", "Snack"));
+        foodQuestions.add(new QuestionData(8, "Chicken produces...", "https://png.pngtree.com/png-vector/20230808/ourmid/pngtree-fried-egg-vector-png-image_6874980.png", "Egg", "Milk", "Egg", "Meat", "Bread"));
+        foodQuestions.add(new QuestionData(8, "Sweet cold dessert:", "https://cdn.pixabay.com/photo/2026/01/17/09/08/birthday-cake-10072742_1280.png", "Ice cream", "Cake", "Ice cream", "Cookie", "Candy"));
+        foodQuestions.add(new QuestionData(8, "Liquid food in a bowl:", "https://static.vecteezy.com/system/resources/previews/075/517/438/non_2x/a-watercolor-illustration-of-steaming-hot-noodles-being-lifted-with-chopsticks-from-a-spicy-asian-soup-bowl-with-a-transparent-background-free-png.png", "Soup", "Pizza", "Soup", "Rice", "Meat"));
         questions.put(8, foodQuestions);
 
         List<QuestionData> clothesQuestions = new ArrayList<>();
-        clothesQuestions.add(new QuestionData(9, "You wear these on your feet:", "https://img.url/shoes.png", "Shoes", "Socks", "Shoes", "Gloves", "Hats"));
-        clothesQuestions.add(new QuestionData(9, "To protect your head:", "https://img.url/hat.png", "Hat", "Hat", "Shirt", "Belt", "Scarf"));
-        clothesQuestions.add(new QuestionData(9, "Women often wear a...", "https://img.url/dress.png", "Dress", "Pants", "Tie", "Dress", "Suit"));
-        clothesQuestions.add(new QuestionData(9, "When it is cold, wear a...", "https://img.url/coat.png", "Coat", "Shorts", "Coat", "T-shirt", "Cap"));
-        clothesQuestions.add(new QuestionData(9, "Worn around the neck:", "https://img.url/scarf.png", "Scarf", "Scarf", "Ring", "Watch", "Socks"));
+        clothesQuestions.add(new QuestionData(9, "You wear these on your feet:", "https://static.vecteezy.com/system/resources/thumbnails/058/047/695/small/classic-orange-sneakers-with-white-laces-and-detail-png.png", "Shoes", "Socks", "Shoes", "Gloves", "Hats"));
+        clothesQuestions.add(new QuestionData(9, "To protect your head:", "https://png.pngtree.com/png-vector/20230120/ourmid/pngtree-straw-hat-cartoon-illustration-png-image_6562738.png", "Hat", "Hat", "Shirt", "Belt", "Scarf"));
+        clothesQuestions.add(new QuestionData(9, "Women often wear a...", "https://cdn.pixabay.com/photo/2026/01/02/03/58/orange-dress-10047392_1280.png", "Dress", "Pants", "Tie", "Dress", "Suit"));
+        clothesQuestions.add(new QuestionData(9, "When it is cold, wear a...", "https://cdni.iconscout.com/illustration/premium/thumb/man-shivering-in-cold-winter-illustration-svg-download-png-11661413.png", "Coat", "Shorts", "Coat", "T-shirt", "Cap"));
+        clothesQuestions.add(new QuestionData(9, "Worn around the neck:", "https://static.vecteezy.com/system/resources/previews/006/183/388/non_2x/red-knitted-scarf-on-a-white-background-winter-scarf-illustration-vector.jpg", "Scarf", "Scarf", "Ring", "Watch", "Socks"));
         questions.put(9, clothesQuestions);
 
         List<QuestionData> convQuestions = new ArrayList<>();
-        convQuestions.add(new QuestionData(10, "When you meet someone:", "https://img.url/hello.png", "Hello", "Bye", "Hello", "Sorry", "Please"));
-        convQuestions.add(new QuestionData(10, "When you get a gift, say:", "https://img.url/thanks.png", "Thank you", "No", "Thank you", "Wait", "Hello"));
-        convQuestions.add(new QuestionData(10, "When leaving, say:", "https://img.url/bye.png", "Goodbye", "Goodbye", "Welcome", "Hi", "Thanks"));
-        convQuestions.add(new QuestionData(10, "Ask for something politely:", "https://img.url/please.png", "Please", "Give me", "Please", "Stop", "Go"));
-        convQuestions.add(new QuestionData(10, "If you make a mistake:", "https://img.url/sorry.png", "Sorry", "Yes", "Sorry", "Maybe", "Great"));
+        convQuestions.add(new QuestionData(10, "When you meet someone:", "https://cdni.iconscout.com/illustration/premium/thumb/greeting-illustration-svg-download-png-4705270.png", "Hello", "Bye", "Hello", "Sorry", "Please"));
+        convQuestions.add(new QuestionData(10, "When you get a gift, say:", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUbgsJbWz6-2ksaGyXMuM73krw2V48FisGRnjO_twBzA&s=10", "Thank you", "No", "Thank you", "Wait", "Hello"));
+        convQuestions.add(new QuestionData(10, "When leaving, say:", "https://cdn.creazilla.com/cliparts/38876/woman-good-bye-clipart-md.png", "Goodbye", "Goodbye", "Welcome", "Hi", "Thanks"));
+        convQuestions.add(new QuestionData(10, "Ask for something politely:", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7rUBwpWVQ8T_Ez_8JE8KyRnpm_s-sKTmaQl6L4LtCcQ&s=10", "Please", "Give me", "Please", "Stop", "Go"));
+        convQuestions.add(new QuestionData(10, "If you make a mistake:", "https://cdni.iconscout.com/illustration/premium/thumb/young-girl-bagging-apology-to-boy-illustration-svg-download-png-6897959.png", "Sorry", "Yes", "Sorry", "Maybe", "Great"));
         questions.put(10, convQuestions);
     }
     private  final List<CategoryData> categories = new ArrayList<>();

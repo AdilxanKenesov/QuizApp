@@ -10,7 +10,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +22,7 @@ import com.google.android.material.button.MaterialButton;
 import java.util.List;
 import uz.gita.testapp.R;
 import uz.gita.testapp.data.model.CategoryData;
+import uz.gita.testapp.presenter.common.MessageDialogFragment;
 import uz.gita.testapp.presenter.quiz.QuizActivity;
 
 public class MenuActivity extends AppCompatActivity implements MenuContract.View {
@@ -113,7 +113,7 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
 
     @Override
     public void showMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        MessageDialogFragment.display(getSupportFragmentManager(), message);
     }
 
     @Override

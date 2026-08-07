@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
@@ -32,6 +31,7 @@ import java.util.List;
 
 import uz.gita.testapp.R;
 import uz.gita.testapp.data.model.QuestionData;
+import uz.gita.testapp.presenter.common.MessageDialogFragment;
 import uz.gita.testapp.presenter.result.ResultActivity;
 
 public class QuizActivity extends AppCompatActivity implements QuizContract.View {
@@ -40,12 +40,10 @@ public class QuizActivity extends AppCompatActivity implements QuizContract.View
     private MaterialButton btnNext, btnPrev;
     private TextView tvLevelInfo, tvQuestionCount, tvQuestionText;
     private ImageView ivQuestionImage;
-    private TextView tvSkip;
     private final RadioButton[] options = new RadioButton[4];
     private ShimmerFrameLayout shimmerFrameLayout;
     private View dataLayout;
     private boolean isImageLoaded = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,14 +79,14 @@ public class QuizActivity extends AppCompatActivity implements QuizContract.View
                 finish();
             }
         });
-
-
     }
+
     private void startQuiz(int levelId) {
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmer();
         presenter.start(levelId);
     }
+
     private void showContinueDialog(int levelId) {
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_continue_choice, null);
         AlertDialog dialog = new AlertDialog.Builder(this)
@@ -122,9 +120,10 @@ public class QuizActivity extends AppCompatActivity implements QuizContract.View
         tvQuestionCount = findViewById(R.id.tvQuestionCount);
         tvQuestionText = dataLayout.findViewById(R.id.tvQuestionText);
         ivQuestionImage = dataLayout.findViewById(R.id.ivQuestion);
+
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finishQuiz());
-        tvSkip = findViewById(R.id.tvSkip);
+
         ImageView btnReset = findViewById(R.id.btnReset);
         btnReset.setOnClickListener(v -> presenter.resetQuiz());
 
@@ -132,7 +131,6 @@ public class QuizActivity extends AppCompatActivity implements QuizContract.View
         options[1] = dataLayout.findViewById(R.id.option2);
         options[2] = dataLayout.findViewById(R.id.option3);
         options[3] = dataLayout.findViewById(R.id.option4);
-        tvSkip.setOnClickListener(v -> presenter.skip());
 
         btnNext.setOnClickListener(v -> presenter.next());
         btnPrev.setOnClickListener(v -> presenter.prev());
@@ -143,8 +141,6 @@ public class QuizActivity extends AppCompatActivity implements QuizContract.View
                 presenter.selectOption(rb.getText().toString());
             }
         });
-
-        findViewById(R.id.btnBack).setOnClickListener(v -> finishQuiz());
     }
 
     @Override
@@ -174,11 +170,9 @@ public class QuizActivity extends AppCompatActivity implements QuizContract.View
                 })
                 .into(ivQuestionImage);
 
-
         for (int i = 0; i < options.length; i++) {
             options[i].setText(shuffledOptions.get(i));
         }
-
 
         if (selectedAnswer != null) {
             for (RadioButton rb : options) {
@@ -189,6 +183,7 @@ public class QuizActivity extends AppCompatActivity implements QuizContract.View
             }
         }
     }
+
     @Override
     public void setNavigationButtons(boolean isFirst, boolean isLast) {
         btnPrev.setVisibility(isFirst ? View.INVISIBLE : View.VISIBLE);
@@ -216,17 +211,8 @@ public class QuizActivity extends AppCompatActivity implements QuizContract.View
     }
 
     @Override
-    public void setSkipButtonVisibility(boolean isVisible) {
-        if (isVisible) {
-            tvSkip.setVisibility(View.VISIBLE);
-        } else {
-            tvSkip.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
     public void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        MessageDialogFragment.display(getSupportFragmentManager(), message);
     }
 
     private void checkAndStopShimmer() {
