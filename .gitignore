@@ -13,3 +13,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Imzo kaliti - hech qachon git ga qo'shmang
+key.properties
+*.jks
+*.keystore
+.keystore-password-SAQLANG.txt

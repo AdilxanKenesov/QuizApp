@@ -41,7 +41,7 @@
                 android:id="@+id/tvCategoryTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fruits"
+
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -50,7 +50,6 @@
                 android:id="@+id/tvQuestionCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Level 1 • Question 1/10"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 android:alpha="0.7" />
@@ -76,7 +75,6 @@
         app:layout_constraintBottom_toTopOf="@id/container"
         >
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -86,22 +84,8 @@
             <include layout="@layout/item_container_quiz"/>
 
         </LinearLayout>
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/shimmer_layout"
-            android:orientation="vertical"
-            android:background="@drawable/home_background"
-            android:clickable="true"
-            android:focusable="true"
-            >
-            <include layout="@layout/item_shimer_quiz"/>
-
-        </com.facebook.shimmer.ShimmerFrameLayout>
 
     </FrameLayout>
-
-
 
     <LinearLayout
         android:id="@+id/container"
@@ -136,8 +120,6 @@
             android:backgroundTint="#2d2e2d"
             app:cornerRadius="16dp" />
 
-
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

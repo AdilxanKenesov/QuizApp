@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:backgroundTint="#2d2e2d"
-
+                android:textColor="@color/white"
                 android:text="New Game"
                 android:textAllCaps="true" />
 
