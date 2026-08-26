@@ -75,15 +75,16 @@
         app:layout_constraintBottom_toTopOf="@id/container"
         >
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/data_layout"
-            android:visibility="visible"
-            android:orientation="vertical">
+            android:fillViewport="true"
+            android:scrollbars="none">
+
             <include layout="@layout/item_container_quiz"/>
 
-        </LinearLayout>
+        </ScrollView>
 
     </FrameLayout>
 
